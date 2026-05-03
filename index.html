@@ -38,6 +38,7 @@
 
     <div class="barra-inferior">
       <div class="marcador" id="marcador"></div>
+
       <div class="botones-control">
         <button onclick="darPunto()">+1</button>
         <button onclick="quitarPunto()">-1</button>
@@ -338,6 +339,25 @@
     osc.stop(ctx.currentTime + 0.35);
   }
 
+  function sonidoCensura() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "square";
+    osc.frequency.value = 900;
+
+    gain.gain.setValueAtTime(0.45, ctx.currentTime);
+    gain.gain.setValueAtTime(0.45, ctx.currentTime + 1.8);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.2);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 2.2);
+  }
+
   function animacionGanador() {
     document.body.classList.remove("flash");
     void document.body.offsetWidth;
@@ -462,10 +482,18 @@
     const respuesta = document.getElementById("respuestaLetra");
     if (respuesta) respuesta.style.display = "none";
 
-    item.frases.forEach((frase) => {
+    item.frases.forEach((frase, index) => {
       const timer = setTimeout(() => {
         l1.innerHTML = frase.linea1;
         l2.innerHTML = frase.linea2;
+
+        if (index === item.frases.length - 1) {
+          sonidoCensura();
+          document.body.classList.remove("flash");
+          void document.body.offsetWidth;
+          document.body.classList.add("flash");
+          document.getElementById("ganador").innerText = "✋ Adivina la paraula!";
+        }
       }, frase.tiempo);
 
       timers.push(timer);
