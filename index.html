@@ -6,13 +6,12 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-  <script src="app.js"></script>
 </head>
 
 <body>
 
 <div id="app">
-  <!-- PANTALLA INICI -->
+  <!-- INICIO -->
   <div id="inicio" class="pantalla">
     <h1>Furor Joc</h1>
 
@@ -36,10 +35,9 @@
     <button onclick="empezarJuego()">Comença a jugar</button>
   </div>
 
-  <!-- PANTALLA JOC -->
+  <!-- JUEGO -->
   <div id="juego" class="pantalla oculto">
 
-    <!-- MENU LATERAL -->
     <div class="menu-lateral">
       <button onclick="cambiarPrueba('paraula')">Paraula</button>
       <button onclick="cambiarPrueba('lletra')">Lletra oculta</button>
@@ -49,13 +47,10 @@
     <h2 id="tituloRonda">Ronda 1</h2>
     <h3 id="tituloPrueba"></h3>
 
-    <!-- CONTINGUT PROVA -->
     <div id="contenidoPrueba"></div>
 
-    <!-- GUANYADOR -->
     <div id="ganador">Esperant pulsador...</div>
 
-    <!-- BARRA INFERIOR -->
     <div class="barra-inferior">
       <div class="marcador" id="marcador"></div>
 
@@ -71,6 +66,9 @@
 
 <!-- JS -->
 <script src="app.js"></script>
+
+</body>
+</html>
 
 </body>
 </html>
