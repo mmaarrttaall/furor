@@ -16,10 +16,12 @@ const estado = {
 
 const pruebas = {
   paraula: {
+    instrucciones: instruccionesParaula,
     cargar: cargarPruebaParaula,
     siguiente: siguienteParaula
   },
   lletra: {
+    instrucciones: instruccionesLletra,
     cargar: cargarPruebaLletra,
     siguiente: siguienteLetra
   }
@@ -66,8 +68,8 @@ function empezarJuego() {
 
   actualizarMarcador();
   actualizarTituloRonda();
-  cargarPrueba();
   reiniciarPulsadores();
+  mostrarInstrucciones();
 }
 
 // ===== MARCADOR =====
@@ -77,7 +79,8 @@ function actualizarMarcador() {
   marcador.innerHTML = "";
 
   estado.equipos.forEach((equipo, index) => {
-    const claseGanador = index === estado.ganadorIndex ? "equipo seleccionado" : "equipo";
+    const claseGanador =
+      index === estado.ganadorIndex ? "equipo seleccionado" : "equipo";
 
     marcador.innerHTML += `
       <div class="${claseGanador}">
@@ -106,7 +109,7 @@ function siguienteRonda() {
 
   actualizarTituloRonda();
   reiniciarPulsadores();
-  cargarPrueba();
+  mostrarInstrucciones();
 }
 
 // ===== PROVES =====
@@ -120,6 +123,18 @@ function cambiarPrueba(nombrePrueba) {
 
   actualizarTituloRonda();
   reiniciarPulsadores();
+  mostrarInstrucciones();
+}
+
+function mostrarInstrucciones() {
+  limpiarTimers();
+
+  if (pruebas[estado.pruebaActual]) {
+    pruebas[estado.pruebaActual].instrucciones();
+  }
+}
+
+function comenzarPrueba() {
   cargarPrueba();
 }
 
@@ -188,7 +203,12 @@ function reiniciarPulsadores() {
   estado.ganadorIndex = null;
   estado.bloqueado = false;
 
-  document.getElementById("ganador").innerText = "Esperant pulsador...";
+  const ganador = document.getElementById("ganador");
+
+  if (ganador) {
+    ganador.innerText = "Esperant pulsador...";
+  }
+
   actualizarMarcador();
 }
 
