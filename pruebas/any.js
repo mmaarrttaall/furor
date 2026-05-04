@@ -1,43 +1,79 @@
-const cancionesAny = [
+// ===== ADIVINA TITOL I AUTOR =====
+
+const canciones = [
   {
     spotify: "https://open.spotify.com/embed/track/3gxOPs7aBe5SJUcvYew6Ax",
-    any: 2023
+    titulo: "Despechá",
+    autor: "Rosalía"
+  },
+  {
+    spotify: "https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT",
+    titulo: "Never Gonna Give You Up",
+    autor: "Rick Astley"
   }
 ];
 
-let indiceAny = 0;
+let indiceCancion = 0;
+
+// ===== INSTRUCCIONES =====
 
 function instruccionesAny() {
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="instrucciones">
-      <p>Endevina l’any de la cançó (±2 anys)</p>
+      <p>
+        Escolta la cançó i digues el títol i l’artista.
+      </p>
+
       <button onclick="comenzarPrueba()">Començar</button>
     </div>
   `;
+
+  document.getElementById("ganador").innerText = "";
 }
 
+// ===== CARGAR PRUEBA =====
+
 function cargarPruebaAny() {
-  const item = cancionesAny[indiceAny];
+  const item = canciones[indiceCancion];
 
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="spotify-oculto">
-      <iframe src="${item.spotify}" width="100%" height="152"></iframe>
-      <div class="tapa-spotify">🎵 Escolta</div>
+      <iframe
+        src="${item.spotify}"
+        width="100%"
+        height="152"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        loading="lazy">
+      </iframe>
     </div>
 
     <button onclick="mostrarRespuestaAny()">Veure resposta</button>
 
     <div id="respuestaAny" class="respuesta">
-      Any: ${item.any}<br>
-      Vàlid: ${item.any - 2} - ${item.any + 2}
+      ${item.titulo} - ${item.autor}
     </div>
   `;
+
+  document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
+
+// ===== MOSTRAR RESPUESTA =====
 
 function mostrarRespuestaAny() {
-  document.getElementById("respuestaAny").style.display = "block";
+  const respuesta = document.getElementById("respuestaAny");
+
+  if (respuesta) {
+    respuesta.style.display = "block";
+  }
 }
 
+// ===== SIGUIENTE =====
+
 function siguienteAny() {
-  indiceAny = (indiceAny + 1) % cancionesAny.length;
+  indiceCancion++;
+
+  if (indiceCancion >= canciones.length) {
+    indiceCancion = 0;
+  }
 }
