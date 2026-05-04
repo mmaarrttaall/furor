@@ -17,22 +17,35 @@ const palabras = [
 
 let indicePalabra = 0;
 
-function cargarPruebaParaula() {
+function instruccionesParaula() {
   document.getElementById("tituloPrueba").innerText = "Prova: Cançó amb paraula";
 
   document.getElementById("contenidoPrueba").innerHTML = `
-    <div class="texto-prueba">
-      Digues una cançó que contingui aquesta paraula:
-    </div>
+    <div class="instrucciones">
+      <h2>Instruccions</h2>
 
+      <p>
+        Digues una cançó que contingui aquesta paraula.
+      </p>
+
+      <button onclick="comenzarPrueba()">Començar</button>
+    </div>
+  `;
+
+  document.getElementById("ganador").innerText = "";
+}
+
+function cargarPruebaParaula() {
+  document.getElementById("tituloPrueba").innerText =
+    "Prova: Cançó amb paraula";
+
+  document.getElementById("contenidoPrueba").innerHTML = `
     <div class="palabra-grande">
       ${palabras[indicePalabra]}
     </div>
-
-    <div class="ayuda">
-      Prem 1, 2, 3 o 4 quan un equip sàpiga la resposta.
-    </div>
   `;
+
+  document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
 
 function siguienteParaula() {
