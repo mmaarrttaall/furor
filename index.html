@@ -14,6 +14,7 @@
     <h1>Furor Joc</h1>
 
     <label>Nombre d’equips</label>
+
     <select id="numEquipos">
       <option value="2">2 equips</option>
       <option value="3">3 equips</option>
@@ -24,12 +25,17 @@
 
     <h2>Tria la prova inicial</h2>
 
-    <select id="pruebaInicial">
-      <option value="paraula">Prova de la paraula</option>
-      <option value="lletra">Prova de la lletra oculta</option>
-    </select>
+    <div class="selector-proves">
+      <button id="btnInicialParaula" class="boto-prova-inicial seleccionat" onclick="seleccionarPruebaInicial('paraula')">
+        Cançó amb paraula
+      </button>
 
-    <br><br>
+      <button id="btnInicialLletra" class="boto-prova-inicial" onclick="seleccionarPruebaInicial('lletra')">
+        Lletra oculta
+      </button>
+    </div>
+
+    <br>
 
     <button onclick="empezarJuego()">Comença a jugar</button>
   </div>
@@ -42,8 +48,8 @@
       <button class="boto-seguent" onclick="siguienteRonda()">Següent ronda</button>
     </div>
 
-    <h2 id="tituloRonda">Ronda 1</h2>
     <h3 id="tituloPrueba"></h3>
+    <h2 id="tituloRonda">Ronda 1</h2>
 
     <div id="contenidoPrueba"></div>
 
