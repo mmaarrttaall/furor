@@ -14,27 +14,29 @@ const estado = {
   }
 };
 
-// ===== PROVES DISPONIBLES =====
-
-const pruebas = {
-  paraula: {
-    titulo: "Cançó amb paraula",
-    instrucciones: instruccionesParaula,
-    cargar: cargarPruebaParaula,
-    siguiente: siguienteParaula
-  },
-  lletra: {
-    titulo: "Lletra oculta",
-    instrucciones: instruccionesLletra,
-    cargar: cargarPruebaLletra,
-    siguiente: siguienteLetra
-  }
-};
-
 // ===== ELEMENTS HTML =====
 
 const selector = document.getElementById("numEquipos");
 const nombresEquipos = document.getElementById("nombresEquipos");
+
+// ===== PROVES DISPONIBLES =====
+
+function obtenerPruebas() {
+  return {
+    paraula: {
+      titulo: "Cançó amb paraula",
+      instrucciones: instruccionesParaula,
+      cargar: cargarPruebaParaula,
+      siguiente: siguienteParaula
+    },
+    lletra: {
+      titulo: "Lletra oculta",
+      instrucciones: instruccionesLletra,
+      cargar: cargarPruebaLletra,
+      siguiente: siguienteLetra
+    }
+  };
+}
 
 // ===== INICI =====
 
@@ -52,15 +54,18 @@ function crearCampos() {
 function seleccionarPruebaInicial(nombrePrueba) {
   estado.pruebaInicial = nombrePrueba;
 
-  document.getElementById("btnInicialParaula").classList.remove("seleccionat");
-  document.getElementById("btnInicialLletra").classList.remove("seleccionat");
+  const btnParaula = document.getElementById("btnInicialParaula");
+  const btnLletra = document.getElementById("btnInicialLletra");
+
+  btnParaula.classList.remove("seleccionat");
+  btnLletra.classList.remove("seleccionat");
 
   if (nombrePrueba === "paraula") {
-    document.getElementById("btnInicialParaula").classList.add("seleccionat");
+    btnParaula.classList.add("seleccionat");
   }
 
   if (nombrePrueba === "lletra") {
-    document.getElementById("btnInicialLletra").classList.add("seleccionat");
+    btnLletra.classList.add("seleccionat");
   }
 }
 
@@ -91,15 +96,16 @@ function empezarJuego() {
 // ===== TITOLS =====
 
 function actualizarTitulos() {
-  const titulo = document.getElementById("tituloPrueba");
-  const ronda = document.getElementById("tituloRonda");
+  const pruebas = obtenerPruebas();
 
-  titulo.innerText = pruebas[estado.pruebaActual].titulo;
+  document.getElementById("tituloPrueba").innerText =
+    pruebas[estado.pruebaActual].titulo;
 
   if (estado.enInstrucciones) {
-    ronda.innerText = "";
+    document.getElementById("tituloRonda").innerText = "";
   } else {
-    ronda.innerText = "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
+    document.getElementById("tituloRonda").innerText =
+      "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
   }
 }
 
@@ -125,13 +131,13 @@ function actualizarMarcador() {
 // ===== RONDES =====
 
 function siguienteRonda() {
+  const pruebas = obtenerPruebas();
+
   limpiarTimers();
 
   estado.rondasPorPrueba[estado.pruebaActual]++;
 
-  if (pruebas[estado.pruebaActual]) {
-    pruebas[estado.pruebaActual].siguiente();
-  }
+  pruebas[estado.pruebaActual].siguiente();
 
   estado.enInstrucciones = false;
 
@@ -143,6 +149,8 @@ function siguienteRonda() {
 // ===== PROVES =====
 
 function cambiarPrueba(nombrePrueba) {
+  const pruebas = obtenerPruebas();
+
   if (!pruebas[nombrePrueba]) return;
 
   limpiarTimers();
@@ -154,6 +162,8 @@ function cambiarPrueba(nombrePrueba) {
 }
 
 function mostrarInstrucciones() {
+  const pruebas = obtenerPruebas();
+
   estado.enInstrucciones = true;
 
   limpiarTimers();
@@ -170,6 +180,8 @@ function comenzarPrueba() {
 }
 
 function cargarPrueba() {
+  const pruebas = obtenerPruebas();
+
   limpiarTimers();
 
   pruebas[estado.pruebaActual].cargar();
@@ -232,7 +244,12 @@ function reiniciarPulsadores() {
   estado.ganadorIndex = null;
   estado.bloqueado = false;
 
-  document.getElementById("ganador").innerText = "Esperant pulsador...";
+  const ganador = document.getElementById("ganador");
+
+  if (ganador) {
+    ganador.innerText = "Esperant pulsador...";
+  }
+
   actualizarMarcador();
 }
 
@@ -287,10 +304,24 @@ function animacionGanador() {
   document.body.classList.add("flash");
 
   const ganador = document.getElementById("ganador");
+
   ganador.classList.remove("activo");
   void ganador.offsetWidth;
   ganador.classList.add("activo");
 }
+
+// ===== FER FUNCIONS GLOBALS =====
+
+window.empezarJuego = empezarJuego;
+window.seleccionarPruebaInicial = seleccionarPruebaInicial;
+window.cambiarPrueba = cambiarPrueba;
+window.siguienteRonda = siguienteRonda;
+window.comenzarPrueba = comenzarPrueba;
+window.darPunto = darPunto;
+window.quitarPunto = quitarPunto;
+window.reiniciarPulsadores = reiniciarPulsadores;
+window.empezarLetra = empezarLetra;
+window.mostrarRespuestaLetra = mostrarRespuestaLetra;
 
 // ===== INIT =====
 
