@@ -270,30 +270,25 @@ function sonidoBuzzer() {
 
 function sonidoCensura() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-  const bufferSize = ctx.sampleRate * 2; // 2 segundos
-  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-
-  // 🔥 Generar ruido blanco (ruido TV)
-  for (let i = 0; i < bufferSize; i++) {
-    data[i] = Math.random() * 2 - 1;
-  }
-
-  const noise = ctx.createBufferSource();
-  noise.buffer = buffer;
-
+  const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
-  // 🔥 VOLUMEN FUERTE
-  gain.gain.setValueAtTime(0.9, ctx.currentTime);
+  // 🔊 tono tipo "bip" clásico
+  osc.type = "square";
+  osc.frequency.value = 900;
+
+  // 🔥 volumen más alto que antes
+  gain.gain.setValueAtTime(0.6, ctx.currentTime);
+
+  // 🔽 mantener un poco y luego apagar
+  gain.gain.setValueAtTime(0.6, ctx.currentTime + 1.5);
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
 
-  noise.connect(gain);
+  osc.connect(gain);
   gain.connect(ctx.destination);
 
-  noise.start();
-  noise.stop(ctx.currentTime + 2);
+  osc.start();
+  osc.stop(ctx.currentTime + 2);
 }
 
 // ===== ANIMACIONS =====
