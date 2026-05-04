@@ -6,6 +6,7 @@ const estado = {
   bloqueado: false,
   pruebaActual: "paraula",
   timers: [],
+  enInstrucciones: true,
   rondasPorPrueba: {
     paraula: 1,
     lletra: 1
@@ -16,11 +17,13 @@ const estado = {
 
 const pruebas = {
   paraula: {
+    titulo: "Cançó amb paraula",
     instrucciones: instruccionesParaula,
     cargar: cargarPruebaParaula,
     siguiente: siguienteParaula
   },
   lletra: {
+    titulo: "Lletra oculta",
     instrucciones: instruccionesLletra,
     cargar: cargarPruebaLletra,
     siguiente: siguienteLetra
@@ -67,9 +70,22 @@ function empezarJuego() {
   document.getElementById("juego").classList.remove("oculto");
 
   actualizarMarcador();
-  actualizarTituloRonda();
-  reiniciarPulsadores();
   mostrarInstrucciones();
+}
+
+// ===== TITULOS =====
+
+function actualizarTitulos() {
+  const titulo = document.getElementById("tituloPrueba");
+  const ronda = document.getElementById("tituloRonda");
+
+  titulo.innerText = pruebas[estado.pruebaActual].titulo;
+
+  if (estado.enInstrucciones) {
+    ronda.innerText = "";
+  } else {
+    ronda.innerText = "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
+  }
 }
 
 // ===== MARCADOR =====
@@ -79,11 +95,11 @@ function actualizarMarcador() {
   marcador.innerHTML = "";
 
   estado.equipos.forEach((equipo, index) => {
-    const claseGanador =
+    const clase =
       index === estado.ganadorIndex ? "equipo seleccionado" : "equipo";
 
     marcador.innerHTML += `
-      <div class="${claseGanador}">
+      <div class="${clase}">
         <div class="equipo-nombre">${equipo.nombre}</div>
         <div class="equipo-puntos">${equipo.puntos}</div>
       </div>
@@ -92,11 +108,6 @@ function actualizarMarcador() {
 }
 
 // ===== RONDES =====
-
-function actualizarTituloRonda() {
-  document.getElementById("tituloRonda").innerText =
-    "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
-}
 
 function siguienteRonda() {
   limpiarTimers();
@@ -107,7 +118,6 @@ function siguienteRonda() {
     pruebas[estado.pruebaActual].siguiente();
   }
 
-  actualizarTituloRonda();
   reiniciarPulsadores();
   mostrarInstrucciones();
 }
@@ -121,29 +131,30 @@ function cambiarPrueba(nombrePrueba) {
 
   estado.pruebaActual = nombrePrueba;
 
-  actualizarTituloRonda();
   reiniciarPulsadores();
   mostrarInstrucciones();
 }
 
 function mostrarInstrucciones() {
-  limpiarTimers();
+  estado.enInstrucciones = true;
 
-  if (pruebas[estado.pruebaActual]) {
-    pruebas[estado.pruebaActual].instrucciones();
-  }
+  limpiarTimers();
+  actualizarTitulos();
+
+  pruebas[estado.pruebaActual].instrucciones();
 }
 
 function comenzarPrueba() {
+  estado.enInstrucciones = false;
+
+  actualizarTitulos();
   cargarPrueba();
 }
 
 function cargarPrueba() {
   limpiarTimers();
 
-  if (pruebas[estado.pruebaActual]) {
-    pruebas[estado.pruebaActual].cargar();
-  }
+  pruebas[estado.pruebaActual].cargar();
 }
 
 // ===== TIMERS =====
@@ -161,7 +172,7 @@ function limpiarTimers() {
 
 document.addEventListener("keydown", function(event) {
   if (document.getElementById("juego").classList.contains("oculto")) return;
-  if (estado.bloqueado) return;
+  if (estado.bloqueado || estado.enInstrucciones) return;
 
   let indice = null;
 
@@ -203,12 +214,7 @@ function reiniciarPulsadores() {
   estado.ganadorIndex = null;
   estado.bloqueado = false;
 
-  const ganador = document.getElementById("ganador");
-
-  if (ganador) {
-    ganador.innerText = "Esperant pulsador...";
-  }
-
+  document.getElementById("ganador").innerText = "Esperant pulsador...";
   actualizarMarcador();
 }
 
@@ -250,6 +256,28 @@ function sonidoCensura() {
 
   osc.connect(gain);
   gain.connect(ctx.destination);
+
+  osc.start();
+  osc.stop(ctx.currentTime + 2.2);
+}
+
+// ===== ANIMACIONS =====
+
+function animacionGanador() {
+  document.body.classList.remove("flash");
+  void document.body.offsetWidth;
+  document.body.classList.add("flash");
+
+  const ganador = document.getElementById("ganador");
+  ganador.classList.remove("activo");
+  void ganador.offsetWidth;
+  ganador.classList.add("activo");
+}
+
+// ===== INIT =====
+
+selector.addEventListener("change", crearCampos);
+crearCampos();
 
   osc.start();
   osc.stop(ctx.currentTime + 2.2);
