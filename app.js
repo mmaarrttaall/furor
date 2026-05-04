@@ -281,7 +281,7 @@ function sonidoCensura() {
   gain.gain.setValueAtTime(0.6, ctx.currentTime);
 
   // 🔽 mantener un poco y luego apagar
-  gain.gain.setValueAtTime(0.6, ctx.currentTime + 1.5);
+  gain.gain.setValueAtTime(1.0, ctx.currentTime + 1.5);
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
 
   osc.connect(gain);
