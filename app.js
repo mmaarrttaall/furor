@@ -1,42 +1,65 @@
-// ===== ESTAT GENERAL =====
+// ===== ESTAT GENERAL DEL JOC =====
 
-let equipos = [];
-let ganadorIndex = null;
-let bloqueado = false;
-let pruebaActual = "paraula";
-let timers = [];
-
-let rondasPorPrueba = {
-  paraula: 1,
-  lletra: 1
+const estado = {
+  equipos: [],
+  ganadorIndex: null,
+  bloqueado: false,
+  pruebaActual: "paraula",
+  timers: [],
+  rondasPorPrueba: {
+    paraula: 1,
+    lletra: 1
+  }
 };
 
-// ===== INICI =====
+// ===== PROVES DISPONIBLES =====
+
+const pruebas = {
+  paraula: {
+    cargar: cargarPruebaParaula,
+    siguiente: siguienteParaula
+  },
+  lletra: {
+    cargar: cargarPruebaLletra,
+    siguiente: siguienteLetra
+  }
+};
+
+// ===== ELEMENTS HTML =====
 
 const selector = document.getElementById("numEquipos");
 const nombresEquipos = document.getElementById("nombresEquipos");
+
+// ===== INICI =====
 
 function crearCampos() {
   const cantidad = parseInt(selector.value);
   nombresEquipos.innerHTML = "";
 
   for (let i = 0; i < cantidad; i++) {
-    nombresEquipos.innerHTML += `<input id="equipo${i}" value="Equip ${i + 1}">`;
+    nombresEquipos.innerHTML += `
+      <input id="equipo${i}" value="Equip ${i + 1}">
+    `;
   }
 }
 
 function empezarJuego() {
   const cantidad = parseInt(selector.value);
-  equipos = [];
+
+  estado.equipos = [];
+  estado.ganadorIndex = null;
+  estado.bloqueado = false;
 
   for (let i = 0; i < cantidad; i++) {
-    equipos.push({
-      nombre: document.getElementById("equipo" + i).value,
+    const input = document.getElementById("equipo" + i);
+
+    estado.equipos.push({
+      nombre: input.value.trim() || "Equip " + (i + 1),
       puntos: 0
     });
   }
 
-  pruebaActual = document.getElementById("pruebaInicial").value;
+  estado.pruebaActual = document.getElementById("pruebaInicial").value;
 
   document.getElementById("inicio").classList.add("oculto");
   document.getElementById("juego").classList.remove("oculto");
@@ -44,6 +67,7 @@ function empezarJuego() {
   actualizarMarcador();
   actualizarTituloRonda();
   cargarPrueba();
+  reiniciarPulsadores();
 }
 
 // ===== MARCADOR =====
@@ -52,9 +76,11 @@ function actualizarMarcador() {
   const marcador = document.getElementById("marcador");
   marcador.innerHTML = "";
 
-  equipos.forEach((equipo) => {
+  estado.equipos.forEach((equipo, index) => {
+    const claseGanador = index === estado.ganadorIndex ? "equipo seleccionado" : "equipo";
+
     marcador.innerHTML += `
-      <div class="equipo">
+      <div class="${claseGanador}">
         <div class="equipo-nombre">${equipo.nombre}</div>
         <div class="equipo-puntos">${equipo.puntos}</div>
       </div>
@@ -66,23 +92,19 @@ function actualizarMarcador() {
 
 function actualizarTituloRonda() {
   document.getElementById("tituloRonda").innerText =
-    "Ronda " + rondasPorPrueba[pruebaActual];
+    "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
 }
 
 function siguienteRonda() {
   limpiarTimers();
 
-  rondasPorPrueba[pruebaActual]++;
+  estado.rondasPorPrueba[estado.pruebaActual]++;
+
+  if (pruebas[estado.pruebaActual]) {
+    pruebas[estado.pruebaActual].siguiente();
+  }
+
   actualizarTituloRonda();
-
-  if (pruebaActual === "paraula") {
-    siguienteParaula();
-  }
-
-  if (pruebaActual === "lletra") {
-    siguienteLetra();
-  }
-
   reiniciarPulsadores();
   cargarPrueba();
 }
@@ -90,31 +112,41 @@ function siguienteRonda() {
 // ===== PROVES =====
 
 function cambiarPrueba(nombrePrueba) {
-  limpiarTimers();
-  pruebaActual = nombrePrueba;
+  if (!pruebas[nombrePrueba]) return;
 
-  reiniciarPulsadores();
+  limpiarTimers();
+
+  estado.pruebaActual = nombrePrueba;
+
   actualizarTituloRonda();
+  reiniciarPulsadores();
   cargarPrueba();
 }
 
 function cargarPrueba() {
-  if (pruebaActual === "paraula") cargarPruebaParaula();
-  if (pruebaActual === "lletra") cargarPruebaLletra();
+  limpiarTimers();
+
+  if (pruebas[estado.pruebaActual]) {
+    pruebas[estado.pruebaActual].cargar();
+  }
 }
 
 // ===== TIMERS =====
 
+function guardarTimer(timer) {
+  estado.timers.push(timer);
+}
+
 function limpiarTimers() {
-  timers.forEach(timer => clearTimeout(timer));
-  timers = [];
+  estado.timers.forEach(timer => clearTimeout(timer));
+  estado.timers = [];
 }
 
 // ===== PULSADORS =====
 
 document.addEventListener("keydown", function(event) {
   if (document.getElementById("juego").classList.contains("oculto")) return;
-  if (bloqueado) return;
+  if (estado.bloqueado) return;
 
   let indice = null;
 
@@ -123,42 +155,51 @@ document.addEventListener("keydown", function(event) {
   if (event.key === "3") indice = 2;
   if (event.key === "4") indice = 3;
 
-  if (indice !== null && equipos[indice]) {
-    ganadorIndex = indice;
-    bloqueado = true;
+  if (indice !== null && estado.equipos[indice]) {
+    estado.ganadorIndex = indice;
+    estado.bloqueado = true;
 
     document.getElementById("ganador").innerText =
-      "🏆 " + equipos[indice].nombre + " ha premut primer!";
+      "🏆 " + estado.equipos[indice].nombre + " ha premut primer!";
 
     sonidoBuzzer();
     animacionGanador();
+    actualizarMarcador();
   }
 });
 
 // ===== PUNTS =====
 
 function darPunto() {
-  if (ganadorIndex === null) return;
-  equipos[ganadorIndex].puntos += 1;
+  if (estado.ganadorIndex === null) return;
+
+  estado.equipos[estado.ganadorIndex].puntos++;
   actualizarMarcador();
 }
 
 function quitarPunto() {
-  if (ganadorIndex === null) return;
-  equipos[ganadorIndex].puntos -= 1;
+  if (estado.ganadorIndex === null) return;
+
+  estado.equipos[estado.ganadorIndex].puntos--;
   actualizarMarcador();
 }
 
 function reiniciarPulsadores() {
-  ganadorIndex = null;
-  bloqueado = false;
+  estado.ganadorIndex = null;
+  estado.bloqueado = false;
+
   document.getElementById("ganador").innerText = "Esperant pulsador...";
+  actualizarMarcador();
 }
 
 // ===== SONS =====
 
+function crearAudioContext() {
+  return new (window.AudioContext || window.webkitAudioContext)();
+}
+
 function sonidoBuzzer() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const ctx = crearAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
@@ -176,7 +217,7 @@ function sonidoBuzzer() {
 }
 
 function sonidoCensura() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const ctx = crearAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
