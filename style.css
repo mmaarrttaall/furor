@@ -167,18 +167,17 @@ button:hover {
   background: #1DB954;
 }
 
-/* 🔥 SPOTIFY RECORTADO SOLO BOTÓN PLAY */
+/* 🔥 SPOTIFY RECORTADO (BOTÓN PLAY CENTRADO) */
 
 .spotify-oculto {
   position: relative;
-  width: 120px;       /* solo zona play */
-  height: 90px;
+  width: 120px;
+  height: 120px;
   margin: 0 auto 25px auto;
   overflow: hidden;
   border-radius: 12px;
 }
 
-/* recorte hacia derecha */
 .spotify-oculto iframe {
   width: 650px;
   height: 152px;
@@ -186,8 +185,8 @@ button:hover {
 
   position: relative;
 
-  left: -520px;   /* 👈 mueve hacia izquierda */
-  top: -30px;     /* 👈 ajusta vertical */
+  left: -520px;  /* mueve a la derecha */
+  top: -10px;    /* 🔥 ajuste fino para centrar play */
 }
 
 /* LETRA */
