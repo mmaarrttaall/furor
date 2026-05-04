@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Furor Joc</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,10 +10,10 @@
 
 <div id="app">
 
-  <!-- PANTALLA INICI -->
   <div id="inicio" class="pantalla">
     <h1>Furor Joc</h1>
 
+    <label>Nombre d’equips</label>
     <select id="numEquipos">
       <option value="2">2 equips</option>
       <option value="3">3 equips</option>
@@ -35,10 +34,8 @@
     <button onclick="empezarJuego()">Comença a jugar</button>
   </div>
 
-  <!-- PANTALLA JOC -->
   <div id="juego" class="pantalla oculto">
 
-    <!-- MENU LATERAL -->
     <div class="menu-lateral">
       <button onclick="cambiarPrueba('paraula')">Paraula</button>
       <button onclick="cambiarPrueba('lletra')">Lletra oculta</button>
@@ -48,13 +45,10 @@
     <h2 id="tituloRonda">Ronda 1</h2>
     <h3 id="tituloPrueba"></h3>
 
-    <!-- CONTENIDO PRUEBA -->
     <div id="contenidoPrueba"></div>
 
-    <!-- GANADOR -->
     <div id="ganador">Esperant pulsador...</div>
 
-    <!-- BARRA INFERIOR -->
     <div class="barra-inferior">
       <div class="marcador" id="marcador"></div>
 
@@ -69,7 +63,6 @@
 
 </div>
 
-<!-- SCRIPTS (ORDEN MUY IMPORTANTE) -->
 <script src="pruebas/paraula.js"></script>
 <script src="pruebas/lletra.js"></script>
 <script src="app.js"></script>
