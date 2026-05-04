@@ -18,6 +18,24 @@ const letrasOcultas = [
 
 let indiceLetra = 0;
 
+function instruccionesLletra() {
+  document.getElementById("tituloPrueba").innerText = "Prova: Lletra oculta";
+
+  document.getElementById("contenidoPrueba").innerHTML = `
+    <div class="instrucciones">
+      <h2>Instruccions</h2>
+
+      <p>
+        Escolta la cançó i endevina la paraula que falta a la lletra.
+      </p>
+
+      <button onclick="comenzarPrueba()">Començar</button>
+    </div>
+  `;
+
+  document.getElementById("ganador").innerText = "";
+}
+
 function cargarPruebaLletra() {
   const item = letrasOcultas[indiceLetra];
 
@@ -51,6 +69,8 @@ function cargarPruebaLletra() {
       Resposta: ${item.respuesta}
     </div>
   `;
+
+  document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
 
 function empezarLetra() {
