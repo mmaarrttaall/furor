@@ -1,4 +1,4 @@
-// ===== PROVA LLETRA OCULTA =====
+// ===== LLETRA OCULTA =====
 
 const letrasOcultas = [
   {
@@ -19,12 +19,8 @@ const letrasOcultas = [
 let indiceLetra = 0;
 
 function instruccionesLletra() {
-  document.getElementById("tituloPrueba").innerText = "Prova: Lletra oculta";
-
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="instrucciones">
-      <h2>Instruccions</h2>
-
       <p>
         Escolta la cançó i endevina la paraula que falta a la lletra.
       </p>
@@ -38,8 +34,6 @@ function instruccionesLletra() {
 
 function cargarPruebaLletra() {
   const item = letrasOcultas[indiceLetra];
-
-  document.getElementById("tituloPrueba").innerText = "Prova: Lletra oculta";
 
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="spotify-box">
