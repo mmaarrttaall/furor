@@ -36,7 +36,7 @@ function cargarPruebaLletra() {
       </iframe>
     </div>
 
-    <button onclick="empezarLetra()" style="background:#1DB954;">
+    <button onclick="empezarLetra()" class="boton-spotify">
       ▶ Començar lletra
     </button>
 
@@ -55,13 +55,16 @@ function cargarPruebaLletra() {
 
 function empezarLetra() {
   const item = letrasOcultas[indiceLetra];
+
   const l1 = document.getElementById("linea1");
   const l2 = document.getElementById("linea2");
+  const ganador = document.getElementById("ganador");
 
   limpiarTimers();
 
   l1.innerHTML = "";
   l2.innerHTML = "";
+  ganador.innerText = "Escoltant la cançó...";
 
   item.frases.forEach((frase, index) => {
     const timer = setTimeout(() => {
@@ -70,19 +73,26 @@ function empezarLetra() {
 
       if (index === item.frases.length - 1) {
         sonidoCensura();
-        document.getElementById("ganador").innerText = "✋ Adivina la paraula!";
+        ganador.innerText = "✋ Adivina la paraula!";
       }
     }, frase.tiempo);
 
-    timers.push(timer);
+    guardarTimer(timer);
   });
 }
 
 function mostrarRespuestaLetra() {
-  document.getElementById("respuestaLetra").style.display = "block";
+  const respuesta = document.getElementById("respuestaLetra");
+
+  if (respuesta) {
+    respuesta.style.display = "block";
+  }
 }
 
 function siguienteLetra() {
   indiceLetra++;
-  if (indiceLetra >= letrasOcultas.length) indiceLetra = 0;
+
+  if (indiceLetra >= letrasOcultas.length) {
+    indiceLetra = 0;
+  }
 }
