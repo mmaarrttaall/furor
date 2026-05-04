@@ -1,5 +1,3 @@
-// ===== ESTAT GENERAL DEL JOC =====
-
 const estado = {
   equipos: [],
   ganadorIndex: null,
@@ -10,16 +8,10 @@ const estado = {
   enInstrucciones: true,
   rondasPorPrueba: {
     paraula: 1,
-    lletra: 1
+    lletra: 1,
+    any: 1
   }
 };
-
-// ===== ELEMENTS HTML =====
-
-const selector = document.getElementById("numEquipos");
-const nombresEquipos = document.getElementById("nombresEquipos");
-
-// ===== PROVES DISPONIBLES =====
 
 function obtenerPruebas() {
   return {
@@ -34,57 +26,48 @@ function obtenerPruebas() {
       instrucciones: instruccionesLletra,
       cargar: cargarPruebaLletra,
       siguiente: siguienteLetra
+    },
+    any: {
+      titulo: "Adivina l’any",
+      instrucciones: instruccionesAny,
+      cargar: cargarPruebaAny,
+      siguiente: siguienteAny
     }
   };
 }
 
-// ===== INICI =====
+const selector = document.getElementById("numEquipos");
+const nombresEquipos = document.getElementById("nombresEquipos");
 
 function crearCampos() {
   const cantidad = parseInt(selector.value);
   nombresEquipos.innerHTML = "";
 
   for (let i = 0; i < cantidad; i++) {
-    nombresEquipos.innerHTML += `
-      <input id="equipo${i}" value="Equip ${i + 1}">
-    `;
+    nombresEquipos.innerHTML += `<input id="equipo${i}" value="Equip ${i + 1}">`;
   }
 }
 
-function seleccionarPruebaInicial(nombrePrueba) {
-  estado.pruebaInicial = nombrePrueba;
+function seleccionarPruebaInicial(nombre) {
+  estado.pruebaInicial = nombre;
 
-  const btnParaula = document.getElementById("btnInicialParaula");
-  const btnLletra = document.getElementById("btnInicialLletra");
-
-  btnParaula.classList.remove("seleccionat");
-  btnLletra.classList.remove("seleccionat");
-
-  if (nombrePrueba === "paraula") {
-    btnParaula.classList.add("seleccionat");
-  }
-
-  if (nombrePrueba === "lletra") {
-    btnLletra.classList.add("seleccionat");
-  }
+  document.querySelectorAll(".boto-prova-inicial").forEach(b => b.classList.remove("seleccionat"));
+  document.getElementById("btnInicial" + capitalize(nombre)).classList.add("seleccionat");
 }
 
 function empezarJuego() {
   const cantidad = parseInt(selector.value);
 
   estado.equipos = [];
-  estado.ganadorIndex = null;
-  estado.bloqueado = false;
-  estado.pruebaActual = estado.pruebaInicial;
 
   for (let i = 0; i < cantidad; i++) {
-    const input = document.getElementById("equipo" + i);
-
     estado.equipos.push({
-      nombre: input.value.trim() || "Equip " + (i + 1),
+      nombre: document.getElementById("equipo" + i).value,
       puntos: 0
     });
   }
+
+  estado.pruebaActual = estado.pruebaInicial;
 
   document.getElementById("inicio").classList.add("oculto");
   document.getElementById("juego").classList.remove("oculto");
@@ -93,71 +76,29 @@ function empezarJuego() {
   mostrarInstrucciones();
 }
 
-// ===== TITOLS =====
-
 function actualizarTitulos() {
   const pruebas = obtenerPruebas();
 
   document.getElementById("tituloPrueba").innerText =
     pruebas[estado.pruebaActual].titulo;
 
-  if (estado.enInstrucciones) {
-    document.getElementById("tituloRonda").innerText = "";
-  } else {
-    document.getElementById("tituloRonda").innerText =
-      "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
-  }
+  document.getElementById("tituloRonda").innerText =
+    estado.enInstrucciones ? "" : "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
 }
-
-// ===== MARCADOR =====
-
-function actualizarMarcador() {
-  const marcador = document.getElementById("marcador");
-  marcador.innerHTML = "";
-
-  estado.equipos.forEach((equipo, index) => {
-    const clase =
-      index === estado.ganadorIndex ? "equipo seleccionado" : "equipo";
-
-    marcador.innerHTML += `
-      <div class="${clase}">
-        <div class="equipo-nombre">${equipo.nombre}</div>
-        <div class="equipo-puntos">${equipo.puntos}</div>
-      </div>
-    `;
-  });
-}
-
-// ===== RONDES =====
 
 function siguienteRonda() {
   const pruebas = obtenerPruebas();
 
-  limpiarTimers();
-
   estado.rondasPorPrueba[estado.pruebaActual]++;
-
   pruebas[estado.pruebaActual].siguiente();
 
   estado.enInstrucciones = false;
-
-  reiniciarPulsadores();
   actualizarTitulos();
   cargarPrueba();
 }
 
-// ===== PROVES =====
-
-function cambiarPrueba(nombrePrueba) {
-  const pruebas = obtenerPruebas();
-
-  if (!pruebas[nombrePrueba]) return;
-
-  limpiarTimers();
-
-  estado.pruebaActual = nombrePrueba;
-
-  reiniciarPulsadores();
+function cambiarPrueba(nombre) {
+  estado.pruebaActual = nombre;
   mostrarInstrucciones();
 }
 
@@ -165,77 +106,42 @@ function mostrarInstrucciones() {
   const pruebas = obtenerPruebas();
 
   estado.enInstrucciones = true;
-
-  limpiarTimers();
   actualizarTitulos();
-
   pruebas[estado.pruebaActual].instrucciones();
 }
 
 function comenzarPrueba() {
   estado.enInstrucciones = false;
-
   actualizarTitulos();
   cargarPrueba();
 }
 
 function cargarPrueba() {
-  const pruebas = obtenerPruebas();
-
-  limpiarTimers();
-
-  pruebas[estado.pruebaActual].cargar();
+  obtenerPruebas()[estado.pruebaActual].cargar();
 }
 
-// ===== TIMERS =====
+function actualizarMarcador() {
+  const marcador = document.getElementById("marcador");
+  marcador.innerHTML = "";
 
-function guardarTimer(timer) {
-  estado.timers.push(timer);
+  estado.equipos.forEach(e => {
+    marcador.innerHTML += `
+      <div class="equipo">
+        <div>${e.nombre}</div>
+        <div>${e.puntos}</div>
+      </div>
+    `;
+  });
 }
-
-function limpiarTimers() {
-  estado.timers.forEach(timer => clearTimeout(timer));
-  estado.timers = [];
-}
-
-// ===== PULSADORS =====
-
-document.addEventListener("keydown", function(event) {
-  if (document.getElementById("juego").classList.contains("oculto")) return;
-  if (estado.bloqueado || estado.enInstrucciones) return;
-
-  let indice = null;
-
-  if (event.key === "1") indice = 0;
-  if (event.key === "2") indice = 1;
-  if (event.key === "3") indice = 2;
-  if (event.key === "4") indice = 3;
-
-  if (indice !== null && estado.equipos[indice]) {
-    estado.ganadorIndex = indice;
-    estado.bloqueado = true;
-
-    document.getElementById("ganador").innerText =
-      "🏆 " + estado.equipos[indice].nombre + " ha premut primer!";
-
-    sonidoBuzzer();
-    animacionGanador();
-    actualizarMarcador();
-  }
-});
-
-// ===== PUNTS =====
 
 function darPunto() {
   if (estado.ganadorIndex === null) return;
-
   estado.equipos[estado.ganadorIndex].puntos++;
   actualizarMarcador();
 }
 
 function quitarPunto() {
   if (estado.ganadorIndex === null) return;
-
   estado.equipos[estado.ganadorIndex].puntos--;
   actualizarMarcador();
 }
@@ -243,88 +149,12 @@ function quitarPunto() {
 function reiniciarPulsadores() {
   estado.ganadorIndex = null;
   estado.bloqueado = false;
-
-  const ganador = document.getElementById("ganador");
-
-  if (ganador) {
-    ganador.innerText = "Esperant pulsador...";
-  }
-
-  actualizarMarcador();
+  document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
 
-// ===== SONS =====
-
-function crearAudioContext() {
-  return new (window.AudioContext || window.webkitAudioContext)();
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-function sonidoBuzzer() {
-  const ctx = crearAudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.type = "square";
-  osc.frequency.value = 180;
-
-  gain.gain.setValueAtTime(0.2, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start();
-  osc.stop(ctx.currentTime + 0.35);
-}
-
-function sonidoCensura() {
-  const ctx = crearAudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.type = "square";
-  osc.frequency.value = 900;
-
-  gain.gain.setValueAtTime(0.45, ctx.currentTime);
-  gain.gain.setValueAtTime(0.45, ctx.currentTime + 1.8);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.2);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start();
-  osc.stop(ctx.currentTime + 2.2);
-}
-
-// ===== ANIMACIONS =====
-
-function animacionGanador() {
-  document.body.classList.remove("flash");
-  void document.body.offsetWidth;
-  document.body.classList.add("flash");
-
-  const ganador = document.getElementById("ganador");
-
-  ganador.classList.remove("activo");
-  void ganador.offsetWidth;
-  ganador.classList.add("activo");
-}
-
-// ===== FER FUNCIONS GLOBALS =====
-
-window.empezarJuego = empezarJuego;
-window.seleccionarPruebaInicial = seleccionarPruebaInicial;
-window.cambiarPrueba = cambiarPrueba;
-window.siguienteRonda = siguienteRonda;
-window.comenzarPrueba = comenzarPrueba;
-window.darPunto = darPunto;
-window.quitarPunto = quitarPunto;
-window.reiniciarPulsadores = reiniciarPulsadores;
-window.empezarLetra = empezarLetra;
-window.mostrarRespuestaLetra = mostrarRespuestaLetra;
-
-// ===== INIT =====
 
 selector.addEventListener("change", crearCampos);
 crearCampos();
-seleccionarPruebaInicial("paraula");
