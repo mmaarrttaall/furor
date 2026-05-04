@@ -2,18 +2,18 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>FUROR</title>
+  <title>Furor Joc</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div id="app">
-  <!-- INICIO -->
+
+  <!-- PANTALLA INICI -->
   <div id="inicio" class="pantalla">
-    <h1>FUROR</h1>
+    <h1>Furor Joc</h1>
 
     <select id="numEquipos">
       <option value="2">2 equips</option>
@@ -35,9 +35,10 @@
     <button onclick="empezarJuego()">Comença a jugar</button>
   </div>
 
-  <!-- JUEGO -->
+  <!-- PANTALLA JOC -->
   <div id="juego" class="pantalla oculto">
 
+    <!-- MENU LATERAL -->
     <div class="menu-lateral">
       <button onclick="cambiarPrueba('paraula')">Paraula</button>
       <button onclick="cambiarPrueba('lletra')">Lletra oculta</button>
@@ -47,10 +48,13 @@
     <h2 id="tituloRonda">Ronda 1</h2>
     <h3 id="tituloPrueba"></h3>
 
+    <!-- CONTENIDO PRUEBA -->
     <div id="contenidoPrueba"></div>
 
+    <!-- GANADOR -->
     <div id="ganador">Esperant pulsador...</div>
 
+    <!-- BARRA INFERIOR -->
     <div class="barra-inferior">
       <div class="marcador" id="marcador"></div>
 
@@ -62,13 +66,13 @@
     </div>
 
   </div>
+
 </div>
 
-<!-- JS -->
+<!-- SCRIPTS (ORDEN MUY IMPORTANTE) -->
+<script src="pruebas/paraula.js"></script>
+<script src="pruebas/lletra.js"></script>
 <script src="app.js"></script>
-
-</body>
-</html>
 
 </body>
 </html>
