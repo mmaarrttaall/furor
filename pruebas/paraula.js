@@ -1,4 +1,4 @@
-// ===== PROVA PARAULA =====
+// ===== CANÇÓ AMB PARAULA =====
 
 const palabras = [
   "AMOR",
@@ -18,12 +18,8 @@ const palabras = [
 let indicePalabra = 0;
 
 function instruccionesParaula() {
-  document.getElementById("tituloPrueba").innerText = "Prova: Cançó amb paraula";
-
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="instrucciones">
-      <h2>Instruccions</h2>
-
       <p>
         Digues una cançó que contingui aquesta paraula.
       </p>
@@ -36,9 +32,6 @@ function instruccionesParaula() {
 }
 
 function cargarPruebaParaula() {
-  document.getElementById("tituloPrueba").innerText =
-    "Prova: Cançó amb paraula";
-
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="palabra-grande">
       ${palabras[indicePalabra]}
