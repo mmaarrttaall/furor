@@ -31,6 +31,8 @@ const letrasOcultas = [
 
 let indiceLetra = 0;
 
+// ===== INSTRUCCIONES =====
+
 function instruccionesLletra() {
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="instrucciones">
@@ -44,6 +46,8 @@ function instruccionesLletra() {
 
   document.getElementById("ganador").innerText = "";
 }
+
+// ===== CARGAR PRUEBA =====
 
 function cargarPruebaLletra() {
   const item = letrasOcultas[indiceLetra];
@@ -77,36 +81,42 @@ function cargarPruebaLletra() {
     </div>
   `;
 
+  // 👇 SIEMPRE este texto
   document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
+
+// ===== INICIAR LETRA =====
 
 function empezarLetra() {
   const item = letrasOcultas[indiceLetra];
 
   const l1 = document.getElementById("linea1");
   const l2 = document.getElementById("linea2");
-  const ganador = document.getElementById("ganador");
 
   limpiarTimers();
 
   l1.innerHTML = "";
   l2.innerHTML = "";
-  ganador.innerText = "Escoltant la cançó...";
+
+  // 👇 NO tocamos el texto de ganador aquí
 
   item.frases.forEach((frase, index) => {
     const timer = setTimeout(() => {
       l1.innerHTML = frase.linea1;
       l2.innerHTML = frase.linea2;
 
+      // 👇 SOLO al final cambia
       if (index === item.frases.length - 1) {
         sonidoCensura();
-        ganador.innerText = "✋ Adivina la paraula!";
+        document.getElementById("ganador").innerText = "✋ Adivina la paraula!";
       }
     }, frase.tiempo);
 
     guardarTimer(timer);
   });
 }
+
+// ===== RESPUESTA =====
 
 function mostrarRespuestaLetra() {
   const respuesta = document.getElementById("respuestaLetra");
@@ -115,6 +125,8 @@ function mostrarRespuestaLetra() {
     respuesta.style.display = "block";
   }
 }
+
+// ===== SIGUIENTE =====
 
 function siguienteLetra() {
   indiceLetra++;
