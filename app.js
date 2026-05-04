@@ -4,7 +4,6 @@ const estado = {
   bloqueado: false,
   pruebaActual: "paraula",
   pruebaInicial: "paraula",
-  timers: [],
   enInstrucciones: true,
   rondasPorPrueba: {
     paraula: 1,
@@ -28,7 +27,7 @@ function obtenerPruebas() {
       siguiente: siguienteLetra
     },
     any: {
-      titulo: "Adivina l’any",
+      titulo: "Títol i autor",
       instrucciones: instruccionesAny,
       cargar: cargarPruebaAny,
       siguiente: siguienteAny
@@ -40,29 +39,23 @@ const selector = document.getElementById("numEquipos");
 const nombresEquipos = document.getElementById("nombresEquipos");
 
 function crearCampos() {
-  const cantidad = parseInt(selector.value);
   nombresEquipos.innerHTML = "";
-
-  for (let i = 0; i < cantidad; i++) {
-    nombresEquipos.innerHTML += `<input id="equipo${i}" value="Equip ${i + 1}">`;
+  for (let i = 0; i < selector.value; i++) {
+    nombresEquipos.innerHTML += `<input id="equipo${i}" value="Equip ${i+1}">`;
   }
 }
 
 function seleccionarPruebaInicial(nombre) {
   estado.pruebaInicial = nombre;
-
   document.querySelectorAll(".boto-prova-inicial").forEach(b => b.classList.remove("seleccionat"));
-  document.getElementById("btnInicial" + capitalize(nombre)).classList.add("seleccionat");
+  document.getElementById("btnInicial" + nombre.charAt(0).toUpperCase() + nombre.slice(1)).classList.add("seleccionat");
 }
 
 function empezarJuego() {
-  const cantidad = parseInt(selector.value);
-
   estado.equipos = [];
-
-  for (let i = 0; i < cantidad; i++) {
+  for (let i = 0; i < selector.value; i++) {
     estado.equipos.push({
-      nombre: document.getElementById("equipo" + i).value,
+      nombre: document.getElementById("equipo"+i).value,
       puntos: 0
     });
   }
@@ -77,21 +70,16 @@ function empezarJuego() {
 }
 
 function actualizarTitulos() {
-  const pruebas = obtenerPruebas();
-
-  document.getElementById("tituloPrueba").innerText =
-    pruebas[estado.pruebaActual].titulo;
-
+  const p = obtenerPruebas();
+  document.getElementById("tituloPrueba").innerText = p[estado.pruebaActual].titulo;
   document.getElementById("tituloRonda").innerText =
     estado.enInstrucciones ? "" : "Ronda " + estado.rondasPorPrueba[estado.pruebaActual];
 }
 
 function siguienteRonda() {
-  const pruebas = obtenerPruebas();
-
+  const p = obtenerPruebas();
   estado.rondasPorPrueba[estado.pruebaActual]++;
-  pruebas[estado.pruebaActual].siguiente();
-
+  p[estado.pruebaActual].siguiente();
   estado.enInstrucciones = false;
   actualizarTitulos();
   cargarPrueba();
@@ -103,11 +91,9 @@ function cambiarPrueba(nombre) {
 }
 
 function mostrarInstrucciones() {
-  const pruebas = obtenerPruebas();
-
   estado.enInstrucciones = true;
   actualizarTitulos();
-  pruebas[estado.pruebaActual].instrucciones();
+  obtenerPruebas()[estado.pruebaActual].instrucciones();
 }
 
 function comenzarPrueba() {
@@ -121,27 +107,21 @@ function cargarPrueba() {
 }
 
 function actualizarMarcador() {
-  const marcador = document.getElementById("marcador");
-  marcador.innerHTML = "";
-
+  const m = document.getElementById("marcador");
+  m.innerHTML = "";
   estado.equipos.forEach(e => {
-    marcador.innerHTML += `
-      <div class="equipo">
-        <div>${e.nombre}</div>
-        <div>${e.puntos}</div>
-      </div>
-    `;
+    m.innerHTML += `<div class="equipo"><div>${e.nombre}</div><div>${e.puntos}</div></div>`;
   });
 }
 
 function darPunto() {
-  if (estado.ganadorIndex === null) return;
+  if (estado.ganadorIndex == null) return;
   estado.equipos[estado.ganadorIndex].puntos++;
   actualizarMarcador();
 }
 
 function quitarPunto() {
-  if (estado.ganadorIndex === null) return;
+  if (estado.ganadorIndex == null) return;
   estado.equipos[estado.ganadorIndex].puntos--;
   actualizarMarcador();
 }
@@ -152,9 +132,15 @@ function reiniciarPulsadores() {
   document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+document.addEventListener("keydown", e => {
+  if (estado.enInstrucciones || estado.bloqueado) return;
+  let i = ["1","2","3","4"].indexOf(e.key);
+  if (i >= 0 && estado.equipos[i]) {
+    estado.ganadorIndex = i;
+    estado.bloqueado = true;
+    document.getElementById("ganador").innerText = "🏆 " + estado.equipos[i].nombre;
+  }
+});
 
 selector.addEventListener("change", crearCampos);
 crearCampos();
