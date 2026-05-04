@@ -5,6 +5,7 @@ const estado = {
   ganadorIndex: null,
   bloqueado: false,
   pruebaActual: "paraula",
+  pruebaInicial: "paraula",
   timers: [],
   enInstrucciones: true,
   rondasPorPrueba: {
@@ -48,12 +49,28 @@ function crearCampos() {
   }
 }
 
+function seleccionarPruebaInicial(nombrePrueba) {
+  estado.pruebaInicial = nombrePrueba;
+
+  document.getElementById("btnInicialParaula").classList.remove("seleccionat");
+  document.getElementById("btnInicialLletra").classList.remove("seleccionat");
+
+  if (nombrePrueba === "paraula") {
+    document.getElementById("btnInicialParaula").classList.add("seleccionat");
+  }
+
+  if (nombrePrueba === "lletra") {
+    document.getElementById("btnInicialLletra").classList.add("seleccionat");
+  }
+}
+
 function empezarJuego() {
   const cantidad = parseInt(selector.value);
 
   estado.equipos = [];
   estado.ganadorIndex = null;
   estado.bloqueado = false;
+  estado.pruebaActual = estado.pruebaInicial;
 
   for (let i = 0; i < cantidad; i++) {
     const input = document.getElementById("equipo" + i);
@@ -64,8 +81,6 @@ function empezarJuego() {
     });
   }
 
-  estado.pruebaActual = document.getElementById("pruebaInicial").value;
-
   document.getElementById("inicio").classList.add("oculto");
   document.getElementById("juego").classList.remove("oculto");
 
@@ -73,7 +88,7 @@ function empezarJuego() {
   mostrarInstrucciones();
 }
 
-// ===== TITULOS =====
+// ===== TITOLS =====
 
 function actualizarTitulos() {
   const titulo = document.getElementById("tituloPrueba");
@@ -118,8 +133,11 @@ function siguienteRonda() {
     pruebas[estado.pruebaActual].siguiente();
   }
 
+  estado.enInstrucciones = false;
+
   reiniciarPulsadores();
-  mostrarInstrucciones();
+  actualizarTitulos();
+  cargarPrueba();
 }
 
 // ===== PROVES =====
@@ -278,25 +296,4 @@ function animacionGanador() {
 
 selector.addEventListener("change", crearCampos);
 crearCampos();
-
-  osc.start();
-  osc.stop(ctx.currentTime + 2.2);
-}
-
-// ===== ANIMACIONS =====
-
-function animacionGanador() {
-  document.body.classList.remove("flash");
-  void document.body.offsetWidth;
-  document.body.classList.add("flash");
-
-  const ganador = document.getElementById("ganador");
-  ganador.classList.remove("activo");
-  void ganador.offsetWidth;
-  ganador.classList.add("activo");
-}
-
-// ===== INIT =====
-
-selector.addEventListener("change", crearCampos);
-crearCampos();
+seleccionarPruebaInicial("paraula");
