@@ -10,11 +10,11 @@
 
 <div id="app">
 
+  <!-- INICIO -->
   <div id="inicio" class="pantalla">
     <h1>Furor Joc</h1>
 
     <label>Nombre d’equips</label>
-
     <select id="numEquipos">
       <option value="2">2 equips</option>
       <option value="3">3 equips</option>
@@ -26,12 +26,19 @@
     <h2>Tria la prova inicial</h2>
 
     <div class="selector-proves">
-      <button id="btnInicialParaula" class="boto-prova-inicial seleccionat" onclick="seleccionarPruebaInicial('paraula')">
+      <button id="btnInicialParaula" class="boto-prova-inicial seleccionat"
+        onclick="seleccionarPruebaInicial('paraula')">
         Cançó amb paraula
       </button>
 
-      <button id="btnInicialLletra" class="boto-prova-inicial" onclick="seleccionarPruebaInicial('lletra')">
+      <button id="btnInicialLletra" class="boto-prova-inicial"
+        onclick="seleccionarPruebaInicial('lletra')">
         Lletra oculta
+      </button>
+
+      <button id="btnInicialAny" class="boto-prova-inicial"
+        onclick="seleccionarPruebaInicial('any')">
+        Adivina l’any
       </button>
     </div>
 
@@ -40,16 +47,18 @@
     <button onclick="empezarJuego()">Comença a jugar</button>
   </div>
 
+  <!-- JUEGO -->
   <div id="juego" class="pantalla oculto">
 
     <div class="menu-lateral">
       <button onclick="cambiarPrueba('paraula')">Paraula</button>
-      <button onclick="cambiarPrueba('lletra')">Lletra oculta</button>
+      <button onclick="cambiarPrueba('lletra')">Lletra</button>
+      <button onclick="cambiarPrueba('any')">Any</button>
       <button class="boto-seguent" onclick="siguienteRonda()">Següent ronda</button>
     </div>
 
     <h3 id="tituloPrueba"></h3>
-    <h2 id="tituloRonda">Ronda 1</h2>
+    <h2 id="tituloRonda"></h2>
 
     <div id="contenidoPrueba"></div>
 
@@ -71,6 +80,7 @@
 
 <script src="pruebas/paraula.js"></script>
 <script src="pruebas/lletra.js"></script>
+<script src="pruebas/any.js"></script> <!-- NUEVO -->
 <script src="app.js"></script>
 
 </body>
