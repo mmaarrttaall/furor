@@ -1,8 +1,15 @@
 const canciones = [
+    // CANCIÓN 1 
   {
-    spotify: "https://open.spotify.com/embed/track/3gxOPs7aBe5SJUcvYew6Ax",
-    titulo: "Despechá",
-    autor: "Rosalía"
+    spotify: "https://open.spotify.com/track/7GvCDhqL17l7IrjIcYhRQ9",
+    titulo: "La Bomba",
+    autor: "King Africa"
+  }
+      // CANCIÓN 2 
+  {
+    spotify: "https://open.spotify.com/track/1FhRIZtz1d4qLVe4928exT",
+    titulo: "Las Babys",
+    autor: "Aitana"
   }
 ];
 
