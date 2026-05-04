@@ -167,12 +167,12 @@ button:hover {
   background: #1DB954;
 }
 
-/* 🔥 SPOTIFY RECORTADO (BOTÓN PLAY CENTRADO) */
+/* SPOTIFY RECORTADO */
 
 .spotify-oculto {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 190px;
+  height: 152px;
   margin: 0 auto 25px auto;
   overflow: hidden;
   border-radius: 12px;
@@ -182,11 +182,9 @@ button:hover {
   width: 650px;
   height: 152px;
   border: none;
-
   position: relative;
-
-  left: -520px;  /* mueve a la derecha */
-  top: -10px;    /* 🔥 ajuste fino para centrar play */
+  left: -460px;
+  top: 0;
 }
 
 /* LETRA */
