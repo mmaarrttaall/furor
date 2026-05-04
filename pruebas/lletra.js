@@ -1,6 +1,7 @@
 // ===== LLETRA OCULTA =====
 
 const letrasOcultas = [
+    // CANCIÓN 1 
   {
     spotify: "https://open.spotify.com/embed/track/3gxOPs7aBe5SJUcvYew6Ax",
     respuesta: "desmelena",
@@ -14,6 +15,20 @@ const letrasOcultas = [
       { linea1: "I es _____", linea2: "", tiempo: 28400 }
     ]
   }
+
+    // CANCIÓN 2 
+  {
+    spotify: "https://open.spotify.com/track/73scB4Q4fcOmnsBVZPmk32",
+    respuesta: "peligrosa",
+    frases: [
+      { linea1: "¿Qué hubiera sido?", linea2: "Si antes te hubiera conocido", tiempo: 18000 },
+      { linea1: "Seguramente...", linea2: "estarías bailando esta conmig", tiempo: 25000 },
+      { linea1: "No como amigoso", linea2: "Sino como otra cosa", tiempo: 31000 },
+      { linea1: "Usted cerca me pone _____", linea2: "", tiempo: 37000 }
+    ]
+  }
+
+
 ];
 
 let indiceLetra = 0;
