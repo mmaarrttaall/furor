@@ -5,19 +5,24 @@ body {
   color: white;
 }
 
-/* FLASH pantalla */
+/* TITULO PRINCIPAL DE PRUEBA (ARRIBA) */
 
-body.flash {
-  animation: flashPantalla 0.6s ease;
+#tituloPrueba {
+  font-size: 48px;
+  color: #facc15;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
-@keyframes flashPantalla {
-  0% { background: #111827; }
-  40% { background: #16a34a; }
-  100% { background: #111827; }
+/* RONDA (MÁS PEQUEÑO) */
+
+#tituloRonda {
+  font-size: 26px;
+  color: #94a3b8;
+  margin-bottom: 20px;
 }
 
-/* PANTALLAS */
+/* RESTO IGUAL QUE ANTES */
 
 .pantalla {
   min-height: 100vh;
@@ -30,90 +35,7 @@ body.flash {
   display: none;
 }
 
-/* TITULOS */
-
-h1 {
-  font-size: 72px;
-  margin-bottom: 35px;
-}
-
-h2 {
-  font-size: 42px;
-  margin: 15px 0;
-}
-
-h3 {
-  font-size: 30px;
-  color: #facc15;
-  margin: 8px 0 20px;
-}
-
-label {
-  display: block;
-  font-size: 22px;
-  margin-bottom: 8px;
-}
-
-/* INPUTS Y BOTONES */
-
-select,
-input,
-button {
-  font-size: 20px;
-  padding: 10px 15px;
-  margin: 6px;
-  border-radius: 10px;
-  border: none;
-}
-
-input,
-select {
-  background: white;
-  color: #111827;
-}
-
-button {
-  background: #16a34a;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.85;
-  transform: scale(1.03);
-}
-
-/* EQUIPOS */
-
-#nombresEquipos {
-  margin: 25px 0;
-}
-
-#nombresEquipos input {
-  width: 160px;
-  text-align: center;
-}
-
-/* CONTENIDO PRUEBA */
-
-#contenidoPrueba {
-  min-height: 300px;
-  margin: 15px 0;
-}
-
-.texto-prueba {
-  font-size: 28px;
-  margin-top: 20px;
-}
-
-.ayuda {
-  color: #cbd5e1;
-  font-size: 20px;
-  margin-top: 20px;
-}
-
-/* INSTRUCCIONS */
+/* INSTRUCCIONES */
 
 .instrucciones {
   max-width: 700px;
@@ -124,14 +46,8 @@ button:hover {
   border: 2px solid #334155;
 }
 
-.instrucciones h2 {
-  color: #facc15;
-  margin-top: 0;
-}
-
 .instrucciones p {
   font-size: 30px;
-  line-height: 1.4;
   margin: 25px 0;
 }
 
@@ -144,107 +60,12 @@ button:hover {
   margin: 35px 0;
 }
 
-/* SPOTIFY */
-
-.spotify-box {
-  max-width: 650px;
-  margin: 0 auto 15px auto;
-}
-
-.boton-spotify {
-  background: #1DB954;
-}
-
-/* LETRA */
-
-.letra-caja {
-  font-size: 40px;
-  font-weight: bold;
-  line-height: 1.45;
-  margin: 18px auto;
-  max-width: 850px;
-  background: #1f2937;
-  padding: 25px;
-  border-radius: 20px;
-  min-height: 120px;
-}
-
-/* RESPUESTA */
-
-.respuesta {
-  display: none;
-  font-size: 34px;
-  color: #22c55e;
-  font-weight: bold;
-  margin-top: 18px;
-}
-
 /* GANADOR */
 
 #ganador {
   font-size: 38px;
-  font-weight: bold;
   margin: 20px 0;
   color: #22c55e;
-  min-height: 48px;
-}
-
-#ganador.activo {
-  animation: ganadorZoom 0.6s ease;
-}
-
-@keyframes ganadorZoom {
-  0% { transform: scale(0.7); opacity: 0; }
-  60% { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-/* MENU LATERAL */
-
-.menu-lateral {
-  position: fixed;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #020617;
-  border: 2px solid #334155;
-  border-radius: 18px;
-  padding: 8px;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.menu-lateral button {
-  background: #2563eb;
-  font-size: 15px;
-  padding: 8px 10px;
-  margin: 0;
-  width: 105px;
-}
-
-.menu-lateral .boto-seguent {
-  background: #16a34a;
-  margin-top: 8px;
-}
-
-/* BARRA INFERIOR */
-
-.barra-inferior {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #020617;
-  border-top: 2px solid #334155;
-  padding: 6px 10px;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
 }
 
 /* MARCADOR */
@@ -260,80 +81,19 @@ button:hover {
   background: #1f2937;
   padding: 5px 10px;
   border-radius: 12px;
-  min-width: 95px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 2px solid transparent;
 }
 
 .equipo.seleccionado {
-  border-color: #22c55e;
+  border: 2px solid #22c55e;
   background: #064e3b;
 }
 
-.equipo-nombre {
-  font-size: 14px;
-  font-weight: bold;
-}
+/* BARRA */
 
-.equipo-puntos {
-  font-size: 22px;
-  font-weight: bold;
-  color: #facc15;
-}
-
-/* BOTONES */
-
-.botones-control {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.botones-control button {
-  font-size: 15px;
-  padding: 7px 10px;
-  margin: 0;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 800px) {
-  .pantalla {
-    padding: 20px 15px 150px 15px;
-  }
-
-  h1 {
-    font-size: 48px;
-  }
-
-  h2 {
-    font-size: 32px;
-  }
-
-  h3 {
-    font-size: 24px;
-  }
-
-  .palabra-grande {
-    font-size: 58px;
-  }
-
-  .letra-caja {
-    font-size: 30px;
-  }
-
-  .instrucciones p {
-    font-size: 24px;
-  }
-
-  .menu-lateral {
-    position: static;
-    transform: none;
-    flex-direction: row;
-    justify-content: center;
-    margin-bottom: 15px;
-  }
+.barra-inferior {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #020617;
+  padding: 10px;
 }
