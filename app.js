@@ -11,7 +11,8 @@ const estado = {
   rondasPorPrueba: {
     paraula: 1,
     lletra: 1,
-    any: 1
+    any: 1,
+    cascos: 1
   }
 };
 
@@ -25,17 +26,26 @@ function obtenerPruebas() {
       cargar: cargarPruebaParaula,
       siguiente: siguienteParaula
     },
+
     lletra: {
       titulo: "Lletra oculta",
       instrucciones: instruccionesLletra,
       cargar: cargarPruebaLletra,
       siguiente: siguienteLetra
     },
+
     any: {
       titulo: "Títol i autor",
       instrucciones: instruccionesAny,
       cargar: cargarPruebaAny,
       siguiente: siguienteAny
+    },
+
+    cascos: {
+      titulo: "Auricular i canta",
+      instrucciones: instruccionesCascos,
+      cargar: cargarPruebaCascos,
+      siguiente: siguienteCascos
     }
   };
 }
@@ -269,25 +279,22 @@ function sonidoBuzzer() {
 }
 
 function sonidoCensura() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const ctx = crearAudioContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
 
-  for (let i = 0; i < 2; i++) { // 🔥 2 osciladores
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+  osc.type = "square";
+  osc.frequency.value = 900;
 
-    osc.type = "square";
-    osc.frequency.value = 900;
+  gain.gain.setValueAtTime(1.0, ctx.currentTime);
+  gain.gain.setValueAtTime(1.0, ctx.currentTime + 1.5);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
 
-    gain.gain.setValueAtTime(0.6, ctx.currentTime);
-    gain.gain.setValueAtTime(0.6, ctx.currentTime + 1.5);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(ctx.currentTime + 2);
-  }
+  osc.start();
+  osc.stop(ctx.currentTime + 2);
 }
 
 // ===== ANIMACIONS =====
