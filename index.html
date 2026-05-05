@@ -2,7 +2,7 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>FUROR</title>
+  <title>Furor Joc</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,7 +12,7 @@
 
   <!-- INICIO -->
   <div id="inicio" class="pantalla">
-    <h1>FUROR</h1>
+    <h1>Furor Joc</h1>
 
     <label>Nombre d’equips</label>
     <select id="numEquipos">
@@ -23,7 +23,7 @@
 
     <div id="nombresEquipos"></div>
 
-    <h2>Escollir prova inicial</h2>
+    <h2>Tria la prova inicial</h2>
 
     <div class="selector-proves">
       <button id="btnInicialParaula" class="boto-prova-inicial seleccionat"
@@ -40,6 +40,11 @@
         onclick="seleccionarPruebaInicial('any')">
         Títol i autor
       </button>
+
+      <button id="btnInicialCascos" class="boto-prova-inicial"
+        onclick="seleccionarPruebaInicial('cascos')">
+        Auricular i canta
+      </button>
     </div>
 
     <br>
@@ -54,6 +59,7 @@
       <button onclick="cambiarPrueba('paraula')">Paraula</button>
       <button onclick="cambiarPrueba('lletra')">Lletra</button>
       <button onclick="cambiarPrueba('any')">Títol i autor</button>
+      <button onclick="cambiarPrueba('cascos')">Auricular</button>
       <button class="boto-seguent" onclick="siguienteRonda()">Següent ronda</button>
     </div>
 
@@ -81,6 +87,7 @@
 <script src="pruebas/paraula.js"></script>
 <script src="pruebas/lletra.js"></script>
 <script src="pruebas/any.js"></script>
+<script src="pruebas/cascos.js"></script>
 <script src="app.js"></script>
 
 </body>
