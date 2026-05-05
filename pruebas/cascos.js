@@ -2,10 +2,10 @@
 
 const cancionesCascos = [
   {
-    spotify: "https://open.spotify.com/embed/track/7GvCDhqL17l7IrjIcYhRQ9"
+    spotify: "https://open.spotify.com/embed/track/6habFhsOp2NvshLv26DqMb" // Despacito
   },
   {
-    spotify: "https://open.spotify.com/embed/track/1FhRIZtz1d4qLVe4928exT"
+    spotify: "https://open.spotify.com/embed/track/7GvCDhqL17l7IrjIcYhRQ9" // La Bomba
   }
 ];
 
@@ -46,7 +46,7 @@ function cargarPruebaCascos() {
       </iframe>
     </div>
 
-    <p>(Només el jugador amb cascos ha de mirar la pantalla)</p>
+    <p>🎧 Posa't els cascos i dona-li al play</p>
   `;
 
   document.getElementById("ganador").innerText = "Esperant pulsador...";
