@@ -60,10 +60,16 @@ const nombresEquipos = document.getElementById("nombresEquipos");
 window.addEventListener("load", function() {
   const video = document.getElementById("videoIntro");
   const zonaInicio = document.getElementById("zonaInicioDespuesVideo");
+  const contenedorVideo = document.getElementById("introVideoContainer");
 
-  if (video && zonaInicio) {
+  if (video && zonaInicio && contenedorVideo) {
     video.onended = function() {
-      zonaInicio.style.display = "block";
+      contenedorVideo.classList.add("video-desapareix");
+
+      setTimeout(() => {
+        contenedorVideo.style.display = "none";
+        zonaInicio.style.display = "block";
+      }, 500);
     };
   }
 });
