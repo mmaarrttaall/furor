@@ -55,6 +55,19 @@ function obtenerPruebas() {
 const selector = document.getElementById("numEquipos");
 const nombresEquipos = document.getElementById("nombresEquipos");
 
+// ===== VIDEO INTRO =====
+
+window.addEventListener("load", function() {
+  const video = document.getElementById("videoIntro");
+  const zonaInicio = document.getElementById("zonaInicioDespuesVideo");
+
+  if (video && zonaInicio) {
+    video.onended = function() {
+      zonaInicio.style.display = "block";
+    };
+  }
+});
+
 // ===== INICI =====
 
 function crearCampos() {
