@@ -14,42 +14,52 @@
   <div id="inicio" class="pantalla">
     <h1>Furor Joc</h1>
 
-    <label>Nombre d’equips</label>
-    <select id="numEquipos">
-      <option value="2">2 equips</option>
-      <option value="3">3 equips</option>
-      <option value="4">4 equips</option>
-    </select>
-
-    <div id="nombresEquipos"></div>
-
-    <h2>Tria la prova inicial</h2>
-
-    <div class="selector-proves">
-      <button id="btnInicialParaula" class="boto-prova-inicial seleccionat"
-        onclick="seleccionarPruebaInicial('paraula')">
-        Cançó amb paraula
-      </button>
-
-      <button id="btnInicialLletra" class="boto-prova-inicial"
-        onclick="seleccionarPruebaInicial('lletra')">
-        Lletra oculta
-      </button>
-
-      <button id="btnInicialAny" class="boto-prova-inicial"
-        onclick="seleccionarPruebaInicial('any')">
-        Títol i autor
-      </button>
-
-      <button id="btnInicialCascos" class="boto-prova-inicial"
-        onclick="seleccionarPruebaInicial('cascos')">
-        Auricular i canta
-      </button>
+    <div id="introVideoContainer">
+      <video id="videoIntro" width="650" controls>
+        <source src="videos/presentacion.mp4" type="video/mp4">
+        El teu navegador no pot reproduir aquest vídeo.
+      </video>
     </div>
 
-    <br>
+    <div id="zonaInicioDespuesVideo" style="display:none;">
 
-    <button onclick="empezarJuego()">Comença a jugar</button>
+      <label>Nombre d’equips</label>
+      <select id="numEquipos">
+        <option value="2">2 equips</option>
+        <option value="3">3 equips</option>
+        <option value="4">4 equips</option>
+      </select>
+
+      <div id="nombresEquipos"></div>
+
+      <h2>Tria la prova inicial</h2>
+
+      <div class="selector-proves">
+        <button id="btnInicialParaula" class="boto-prova-inicial seleccionat"
+          onclick="seleccionarPruebaInicial('paraula')">
+          Cançó amb paraula
+        </button>
+
+        <button id="btnInicialLletra" class="boto-prova-inicial"
+          onclick="seleccionarPruebaInicial('lletra')">
+          Lletra oculta
+        </button>
+
+        <button id="btnInicialAny" class="boto-prova-inicial"
+          onclick="seleccionarPruebaInicial('any')">
+          Títol i autor
+        </button>
+
+        <button id="btnInicialCascos" class="boto-prova-inicial"
+          onclick="seleccionarPruebaInicial('cascos')">
+          Auricular i canta
+        </button>
+      </div>
+
+      <br>
+
+      <button onclick="empezarJuego()">Comença a jugar</button>
+    </div>
   </div>
 
   <!-- JUEGO -->
@@ -84,11 +94,11 @@
 
 </div>
 
-<script src="pruebas/paraula.js"></script>
-<script src="pruebas/lletra.js"></script>
-<script src="pruebas/any.js"></script>
-<script src="pruebas/cascos.js"></script>
-<script src="app.js"></script>
+<script src="pruebas/paraula.js?v=4"></script>
+<script src="pruebas/lletra.js?v=4"></script>
+<script src="pruebas/any.js?v=4"></script>
+<script src="pruebas/cascos.js?v=4"></script>
+<script src="app.js?v=4"></script>
 
 </body>
 </html>
