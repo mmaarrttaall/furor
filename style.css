@@ -205,6 +205,19 @@ button:hover {
   top: 0;
 }
 
+/* VIDEO CASCOS */
+
+.video-cascos {
+  margin: 20px auto 30px auto;
+}
+
+.video-cascos video {
+  max-width: 90%;
+  border-radius: 20px;
+  border: 3px solid #334155;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
 /* LETRA */
 
 .letra-caja {
