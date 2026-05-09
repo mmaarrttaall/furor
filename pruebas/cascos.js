@@ -16,7 +16,7 @@ let indiceCascos = 0;
 function instruccionesCascos() {
   document.getElementById("contenidoPrueba").innerHTML = `
     <div class="video-cascos">
-      <video width="650" controls>
+      <video width="650" controls preload="auto">
         <source src="./videos/cascos.mp4" type="video/mp4">
         El teu navegador no pot reproduir aquest vídeo.
       </video>
