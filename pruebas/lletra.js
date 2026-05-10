@@ -1,7 +1,6 @@
 // ===== LLETRA OCULTA =====
 
 const letrasOcultas = [
-  // CANCIÓN 1
   {
     spotify: "https://open.spotify.com/embed/track/3gxOPs7aBe5SJUcvYew6Ax",
     respuesta: "desmelena",
@@ -14,34 +13,22 @@ const letrasOcultas = [
       { linea1: "Lo rompe, lo rompe, ho trenca", linea2: "Lo rompe, lo rompe, ho trenca", tiempo: 22000 },
       { linea1: "I es _____", linea2: "", tiempo: 28400 }
     ]
-  },
-
-  // CANCIÓN 2
-  {
-    spotify: "https://open.spotify.com/embed/track/73scB4Q4fcOmnsBVZPmk32",
-    respuesta: "peligrosa",
-    frases: [
-      { linea1: "¿Qué hubiera sido?", linea2: "Si antes te hubiera conocido", tiempo: 18000 },
-      { linea1: "Seguramente...", linea2: "estarías bailando esta conmigo", tiempo: 25000 },
-      { linea1: "No como amigos", linea2: "Sino como otra cosa", tiempo: 31000 },
-      { linea1: "Usted cerca me pone _____", linea2: "", tiempo: 37000 }
-    ]
   }
 ];
 
 let indiceLetra = 0;
 
-// ===== INSTRUCCIONES =====
+// ===== VIDEO INICIAL =====
 
 function instruccionesLletra() {
   document.getElementById("contenidoPrueba").innerHTML = `
-    <div class="instrucciones">
-      <p>
-        Escolta la cançó i endevina la paraula que falta a la lletra.
-      </p>
-
-      <button onclick="comenzarPrueba()">Començar</button>
+    <div class="video-cascos">
+      <video width="650" controls preload="auto">
+        <source src="./videos/lletra.mp4" type="video/mp4">
+      </video>
     </div>
+
+    <button onclick="comenzarPrueba()">Començar</button>
   `;
 
   document.getElementById("ganador").innerText = "";
@@ -81,7 +68,6 @@ function cargarPruebaLletra() {
     </div>
   `;
 
-  // 👇 SIEMPRE este texto
   document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
 
@@ -98,14 +84,11 @@ function empezarLetra() {
   l1.innerHTML = "";
   l2.innerHTML = "";
 
-  // 👇 NO tocamos el texto de ganador aquí
-
   item.frases.forEach((frase, index) => {
     const timer = setTimeout(() => {
       l1.innerHTML = frase.linea1;
       l2.innerHTML = frase.linea2;
 
-      // 👇 SOLO al final cambia
       if (index === item.frases.length - 1) {
         sonidoCensura();
         document.getElementById("ganador").innerText = "✋ Adivina la paraula!";
