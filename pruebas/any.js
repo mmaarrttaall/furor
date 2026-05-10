@@ -1,14 +1,12 @@
 // ===== TÍTOL I AUTOR =====
 
 const canciones = [
-  // CANCIÓN 1
   {
     spotify: "https://open.spotify.com/embed/track/7GvCDhqL17l7IrjIcYhRQ9",
     titulo: "La Bomba",
     autor: "King Africa"
   },
 
-  // CANCIÓN 2
   {
     spotify: "https://open.spotify.com/embed/track/1FhRIZtz1d4qLVe4928exT",
     titulo: "Las Babys",
@@ -18,17 +16,23 @@ const canciones = [
 
 let indiceCancion = 0;
 
+// ===== VIDEO INICIAL =====
+
 function instruccionesAny() {
   document.getElementById("contenidoPrueba").innerHTML = `
-    <div class="instrucciones">
-      <p>Endevina el títol i l’artista.</p>
-
-      <button onclick="comenzarPrueba()">Començar</button>
+    <div class="video-cascos">
+      <video width="650" controls preload="auto">
+        <source src="./videos/titol.mp4" type="video/mp4">
+      </video>
     </div>
+
+    <button onclick="comenzarPrueba()">Començar</button>
   `;
 
   document.getElementById("ganador").innerText = "";
 }
+
+// ===== CARGAR PRUEBA =====
 
 function cargarPruebaAny() {
   const item = canciones[indiceCancion];
