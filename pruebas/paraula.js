@@ -17,19 +17,23 @@ const palabras = [
 
 let indicePalabra = 0;
 
+// ===== VIDEO INICIAL =====
+
 function instruccionesParaula() {
   document.getElementById("contenidoPrueba").innerHTML = `
-    <div class="instrucciones">
-      <p>
-        Digues una cançó que contingui aquesta paraula.
-      </p>
-
-      <button onclick="comenzarPrueba()">Començar</button>
+    <div class="video-cascos">
+      <video width="650" controls preload="auto">
+        <source src="./videos/paraula.mp4" type="video/mp4">
+      </video>
     </div>
+
+    <button onclick="comenzarPrueba()">Començar</button>
   `;
 
   document.getElementById("ganador").innerText = "";
 }
+
+// ===== CARGAR PRUEBA =====
 
 function cargarPruebaParaula() {
   document.getElementById("contenidoPrueba").innerHTML = `
@@ -40,6 +44,8 @@ function cargarPruebaParaula() {
 
   document.getElementById("ganador").innerText = "Esperant pulsador...";
 }
+
+// ===== SIGUIENTE =====
 
 function siguienteParaula() {
   indicePalabra++;
